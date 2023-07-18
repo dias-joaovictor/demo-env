@@ -5,6 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 
 @SpringBootApplication
 public class DemoEnvApplication implements CommandLineRunner {
@@ -25,7 +27,11 @@ public class DemoEnvApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("Hello World!");
 		System.out.println(myVariable);
+		System.out.println(myVariable.length());
 		System.out.println(myVariable.split("\n").length);
+
+		Resource resource = new ByteArrayResource(myVariable.getBytes());
+		System.out.println(resource.contentLength());
 		context.close();
 	}
 }
