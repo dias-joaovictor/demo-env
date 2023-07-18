@@ -28,7 +28,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 
 	private final ConfigurableApplicationContext context;
 
-	@Value("${my.variable}")
+	@Value("${sftp.private.key}")
 	private String privateKey;
 
 	@Value("${sftp.host}")
