@@ -35,6 +35,9 @@ public class DemoEnvApplication implements CommandLineRunner {
 	@Value("${sftp.port}")
 	private int port;
 
+	@Value("file:/sftpnew")
+	private Resource myFile;
+
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Hello World!");
@@ -56,8 +59,8 @@ public class DemoEnvApplication implements CommandLineRunner {
 		DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
 		factory.setUser(user);
 		if (privateKey != null) {
-			Resource resource = new ByteArrayResource(privateKey.getBytes());
-			factory.setPrivateKey(resource);
+			// Resource resource = new ByteArrayResource(privateKey.getBytes());
+			factory.setPrivateKey(myFile);
 		} else {
 			throw new IllegalArgumentException("HeyWorld SFTP password or private key is not found!");
 		}
