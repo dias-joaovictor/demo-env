@@ -69,6 +69,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 		factory.setHost(host);
 		factory.setPort(port);
 		factory.setAllowUnknownKeys(true);
+		factory.setClientVersion("SSH-2.0-OpenSSH_9.2p1 Debian-2");
 		SftpRemoteFileTemplate template = new SftpRemoteFileTemplate(factory);
 
 		try {
