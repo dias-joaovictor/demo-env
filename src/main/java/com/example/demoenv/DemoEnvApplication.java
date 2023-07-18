@@ -25,6 +25,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("Hello World!");
 		System.out.println(myVariable);
+		System.out.println(myVariable.split("\n").length);
 		context.close();
 	}
 }
