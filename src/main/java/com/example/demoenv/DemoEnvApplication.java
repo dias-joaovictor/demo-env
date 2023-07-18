@@ -1,6 +1,8 @@
 package com.example.demoenv;
 
 import com.jcraft.jsch.Session;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +18,8 @@ import org.springframework.integration.sftp.session.SftpSession;
 import com.jcraft.jsch.ChannelSftp;
 
 @SpringBootApplication
+@Slf4j
+@RequiredArgsConstructor
 public class DemoEnvApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -36,9 +40,6 @@ public class DemoEnvApplication implements CommandLineRunner {
 	@Value("${sftp.port}")
 	private int port;
 
-	public DemoEnvApplication(ConfigurableApplicationContext context) {
-		this.context = context;
-	}
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Hello World!");
@@ -76,7 +77,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 				return null;
 			});
 		} catch (Exception ex) {
-			System.out.println("Failed to connect to SFTP server: " + ex.getMessage());
+			log.error("Failed to connect to SFTP server: {}", ex.getMessage(), ex);
 		}
 	}
 }
