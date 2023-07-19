@@ -44,7 +44,7 @@ public class DemoEnvApplication implements CommandLineRunner {
     @Value("${sftp.port}")
     private int port;
 
-    @Value("file:/sftpnew")
+    @Value("file:/heyworld")
     private Resource myFile;
 
     @Value("file:/root/.ssh/known_hosts")
