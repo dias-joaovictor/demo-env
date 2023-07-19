@@ -38,6 +38,9 @@ public class DemoEnvApplication implements CommandLineRunner {
 	@Value("file:/sftpnew")
 	private Resource myFile;
 
+	@Value("file:/root/.ssh/known_hosts")
+	private Resource knownHosts;
+
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Hello World!");
@@ -67,6 +70,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 		factory.setHost(host);
 		factory.setPort(port);
 		factory.setAllowUnknownKeys(true);
+		factory.setKnownHostsResource(knownHosts);
 		SftpRemoteFileTemplate template = new SftpRemoteFileTemplate(factory);
 
 		try {
