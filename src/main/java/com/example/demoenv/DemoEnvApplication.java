@@ -29,7 +29,10 @@ public class DemoEnvApplication implements CommandLineRunner {
 
     private final ConfigurableApplicationContext context;
 
-    @Value("${sftp.private.key}")
+//    @Value("${sftp.private.key}")
+//    private String privateKey;
+
+    @Value("${my.variable}")
     private String privateKey;
 
     @Value("${sftp.host}")
@@ -70,8 +73,9 @@ public class DemoEnvApplication implements CommandLineRunner {
         factory.setUser(user);
         if (privateKey != null) {
             // Resource resource = new ByteArrayResource(privateKey.getBytes());
-            log.info(String.valueOf(myFile.contentLength()));
-            factory.setPrivateKey(myFile);
+            Resource resource = myFile;
+            log.info(String.valueOf(resource.contentLength()));
+            factory.setPrivateKey(resource);
             factory.setSessionConfig(new Properties());
         } else {
             throw new IllegalArgumentException("HeyWorld SFTP password or private key is not found!");
