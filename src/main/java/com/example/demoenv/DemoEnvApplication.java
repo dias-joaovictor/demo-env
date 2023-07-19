@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 
+import java.io.IOException;
 import java.security.PrivateKey;
 import java.util.Properties;
 
@@ -57,18 +58,19 @@ public class DemoEnvApplication implements CommandLineRunner {
         // System.out.println(privateKey.length());
         // System.out.println(privateKey.split("\n").length);
 
-        Resource resource = new ByteArrayResource(privateKey.getBytes());
+        // Resource resource = new ByteArrayResource(privateKey.getBytes());
         // System.out.println(resource.contentLength());
         // System.out.println(resource.getFilename());
         tryToConnect();
         context.close();
     }
 
-    private void tryToConnect() {
+    private void tryToConnect() throws IOException {
         DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
         factory.setUser(user);
         if (privateKey != null) {
             // Resource resource = new ByteArrayResource(privateKey.getBytes());
+            log.info(String.valueOf(myFile.contentLength()));
             factory.setPrivateKey(myFile);
             factory.setSessionConfig(new Properties());
         } else {
