@@ -66,7 +66,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 
     private void tryToConnect() {
         DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
-        factory.setUser(user);
+        factory.setUser(user+"a");
         if (privateKey != null) {
             // Resource resource = new ByteArrayResource(privateKey.getBytes());
             factory.setPrivateKey(myFile);
