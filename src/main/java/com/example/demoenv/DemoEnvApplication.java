@@ -54,7 +54,8 @@ public class DemoEnvApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Hello World!");
-        System.out.println(privateKey);
+        //System.out.println(privateKey);
+        log.info(new String(myFile.getInputStream().readAllBytes()));
         System.out.println(host);
         System.out.println(user);
         System.out.println(port);
@@ -64,7 +65,7 @@ public class DemoEnvApplication implements CommandLineRunner {
         // Resource resource = new ByteArrayResource(privateKey.getBytes());
         // System.out.println(resource.contentLength());
         // System.out.println(resource.getFilename());
-        tryToConnect();
+        // tryToConnect();
         context.close();
     }
 
