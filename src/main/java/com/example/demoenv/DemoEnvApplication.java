@@ -66,8 +66,6 @@ public class DemoEnvApplication implements CommandLineRunner {
 		factory.setUser(user);
 		if (privateKey != null) {
 			// Resource resource = new ByteArrayResource(privateKey.getBytes());
-			PrivateKey privateKey =
-					KeyPairUtils.parsePrivateKey(resource.getInputStream(), null);
 			factory.setPrivateKey(myFile);
 			factory.setSessionConfig(new Properties());
 		} else {
