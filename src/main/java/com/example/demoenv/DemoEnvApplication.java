@@ -49,15 +49,6 @@ public class DemoEnvApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        JSch.setLogger(new Logger() {
-            public boolean isEnabled(int level) {
-                return true;
-            }
-
-            public void log(int level, String message) {
-                log.info(message);
-            }
-        });
         System.out.println("Hello World!");
         System.out.println(privateKey);
         System.out.println(host);
@@ -87,8 +78,17 @@ public class DemoEnvApplication implements CommandLineRunner {
         factory.setPort(port);
         factory.setAllowUnknownKeys(true);
         factory.setKnownHostsResource(knownHosts);
-        factory.setClientVersion("SSH-2.0-OpenSSH_9.2p1 Debian-2");
         SftpRemoteFileTemplate template = new SftpRemoteFileTemplate(factory);
+
+		JSch.setLogger(new Logger() {
+			public boolean isEnabled(int level) {
+				return true;
+			}
+
+			public void log(int level, String message) {
+				log.info(message);
+			}
+		});
 
         try {
             template.execute(session -> {
