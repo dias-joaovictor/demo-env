@@ -1,5 +1,7 @@
 package com.example.demoenv;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Logger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,71 +22,81 @@ import java.util.Properties;
 @RequiredArgsConstructor
 public class DemoEnvApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoEnvApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoEnvApplication.class, args);
+    }
 
-	private final ConfigurableApplicationContext context;
+    private final ConfigurableApplicationContext context;
 
-	@Value("${sftp.private.key}")
-	private String privateKey;
+    @Value("${sftp.private.key}")
+    private String privateKey;
 
-	@Value("${sftp.host}")
-	private String host;
+    @Value("${sftp.host}")
+    private String host;
 
-	@Value("${sftp.user}")
-	private String user;
+    @Value("${sftp.user}")
+    private String user;
 
-	@Value("${sftp.port}")
-	private int port;
+    @Value("${sftp.port}")
+    private int port;
 
-	@Value("file:/sftpnew.pem")
-	private Resource myFile;
+    @Value("file:/sftpnew.pem")
+    private Resource myFile;
 
-	@Value("file:/root/.ssh/known_hosts")
-	private Resource knownHosts;
+    @Value("file:/root/.ssh/known_hosts")
+    private Resource knownHosts;
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("Hello World!");
-		System.out.println(privateKey);
-		System.out.println(host);
-		System.out.println(user);
-		System.out.println(port);
-		// System.out.println(privateKey.length());
-		// System.out.println(privateKey.split("\n").length);
 
-		Resource resource = new ByteArrayResource(privateKey.getBytes());
-		// System.out.println(resource.contentLength());
-		// System.out.println(resource.getFilename());
-		tryToConnect();
-		context.close();
-	}
+    @Override
+    public void run(String... args) throws Exception {
+        JSch.setLogger(new Logger() {
+            public boolean isEnabled(int level) {
+                return true;
+            }
 
-	private void tryToConnect() {
-		DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
-		factory.setUser(user);
-		if (privateKey != null) {
-			// Resource resource = new ByteArrayResource(privateKey.getBytes());
-			factory.setPrivateKey(myFile);
-			factory.setSessionConfig(new Properties());
-		} else {
-			throw new IllegalArgumentException("HeyWorld SFTP password or private key is not found!");
-		}
-		factory.setHost(host);
-		factory.setPort(port);
-		factory.setAllowUnknownKeys(true);
-		factory.setKnownHostsResource(knownHosts);
-		factory.setClientVersion("SSH-2.0-OpenSSH_9.2p1 Debian-2");
-		SftpRemoteFileTemplate template = new SftpRemoteFileTemplate(factory);
+            public void log(int level, String message) {
+                log.info(message);
+            }
+        });
+        System.out.println("Hello World!");
+        System.out.println(privateKey);
+        System.out.println(host);
+        System.out.println(user);
+        System.out.println(port);
+        // System.out.println(privateKey.length());
+        // System.out.println(privateKey.split("\n").length);
 
-		try {
-			template.execute(session -> {
-				session.list(".");  // list files in the home directory
-				return null;
-			});
-		} catch (Exception ex) {
-			log.error("Failed to connect to SFTP server: {}", ex.getMessage(), ex);
-		}
-	}
+        Resource resource = new ByteArrayResource(privateKey.getBytes());
+        // System.out.println(resource.contentLength());
+        // System.out.println(resource.getFilename());
+        tryToConnect();
+        context.close();
+    }
+
+    private void tryToConnect() {
+        DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
+        factory.setUser(user);
+        if (privateKey != null) {
+            // Resource resource = new ByteArrayResource(privateKey.getBytes());
+            factory.setPrivateKey(myFile);
+            factory.setSessionConfig(new Properties());
+        } else {
+            throw new IllegalArgumentException("HeyWorld SFTP password or private key is not found!");
+        }
+        factory.setHost(host);
+        factory.setPort(port);
+        factory.setAllowUnknownKeys(true);
+        factory.setKnownHostsResource(knownHosts);
+        factory.setClientVersion("SSH-2.0-OpenSSH_9.2p1 Debian-2");
+        SftpRemoteFileTemplate template = new SftpRemoteFileTemplate(factory);
+
+        try {
+            template.execute(session -> {
+                session.list(".");  // list files in the home directory
+                return null;
+            });
+        } catch (Exception ex) {
+            log.error("Failed to connect to SFTP server: {}", ex.getMessage(), ex);
+        }
+    }
 }
