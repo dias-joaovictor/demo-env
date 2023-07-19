@@ -55,7 +55,7 @@ public class DemoEnvApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("Hello World!");
         //System.out.println(privateKey);
-        log.info(new String(myFile.getInputStream().readAllBytes()));
+        // log.info(new String(myFile.getInputStream().readAllBytes()));
         System.out.println(host);
         System.out.println(user);
         System.out.println(port);
