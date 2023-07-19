@@ -12,6 +12,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.integration.sftp.session.SftpRemoteFileTemplate;
 
+import java.security.PrivateKey;
+import java.util.Properties;
+
 @SpringBootApplication
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +38,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 	@Value("${sftp.port}")
 	private int port;
 
-	@Value("file:/sftpnew")
+	@Value("file:/sftpnew.pem")
 	private Resource myFile;
 
 	@Value("file:/root/.ssh/known_hosts")
@@ -63,7 +66,10 @@ public class DemoEnvApplication implements CommandLineRunner {
 		factory.setUser(user);
 		if (privateKey != null) {
 			// Resource resource = new ByteArrayResource(privateKey.getBytes());
+			PrivateKey privateKey =
+					KeyPairUtils.parsePrivateKey(resource.getInputStream(), null);
 			factory.setPrivateKey(myFile);
+			factory.setSessionConfig(new Properties());
 		} else {
 			throw new IllegalArgumentException("HeyWorld SFTP password or private key is not found!");
 		}
