@@ -32,7 +32,7 @@ public class DemoEnvApplication implements CommandLineRunner {
 //    @Value("${sftp.private.key}")
 //    private String privateKey;
 
-    @Value("${my.variable}")
+    @Value("${new.hey.world.private}")
     private String privateKey;
 
     @Value("${sftp.host}")
@@ -73,8 +73,8 @@ public class DemoEnvApplication implements CommandLineRunner {
         DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory();
         factory.setUser(user);
         if (privateKey != null) {
-            // Resource resource = new ByteArrayResource(privateKey.getBytes());
-            Resource resource = myFile;
+            Resource resource = new ByteArrayResource(privateKey.getBytes());
+            // Resource resource = myFile;
             log.info(String.valueOf(resource.contentLength()));
             factory.setPrivateKey(resource);
             factory.setSessionConfig(new Properties());
