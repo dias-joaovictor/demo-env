@@ -65,7 +65,7 @@ public class DemoEnvApplication implements CommandLineRunner {
         // Resource resource = new ByteArrayResource(privateKey.getBytes());
         // System.out.println(resource.contentLength());
         // System.out.println(resource.getFilename());
-        // tryToConnect();
+        tryToConnect();
         context.close();
     }
 
